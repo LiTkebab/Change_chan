@@ -7,7 +7,7 @@ public class ChangeTemp : MonoBehaviour {
 	public 
 	// Use this for initialization
 	void Start () {
-		AirTemp = 25.0f;
+		AirTemp = 0f;
 	}
 	
 	// Update is called once per frame
