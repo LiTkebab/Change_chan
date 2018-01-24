@@ -20,7 +20,7 @@ public class IceScript : MonoBehaviour {
     void Update()
     {
         //animator = GetComponent<Animator>();
-        if (changeTemp.AirTemp > 25)
+        if (changeTemp.AirTemp > 25 || Input.GetKeyDown(KeyCode.Q))
         {
             animator.SetBool("change_state", true);
             Debug.Log("towater");
