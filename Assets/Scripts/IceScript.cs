@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class IceScript : MonoBehaviour {
 
-    ChangeTemp changeTemp = new ChangeTemp();
+    //ChangeTemp changeTemp;
     public Animator animator;
     [SerializeField]
-    public float TowaterTemp;
+   	float TowaterTemp;
 
 
     // Use this for initialization
@@ -20,12 +20,29 @@ public class IceScript : MonoBehaviour {
     void Update()
     {
         //animator = GetComponent<Animator>();
-        if (changeTemp.AirTemp > 25 || Input.GetKeyDown(KeyCode.Q))
+
+		if (ChangeTemp.Instance.AirTemp > TowaterTemp)
         {
             animator.SetBool("change_state", true);
-            Debug.Log("towater");
+			StartCoroutine ("Towater");  
         }
+		if (ChangeTemp.Instance.AirTemp < TowaterTemp)
+		{
+			animator.SetBool("change_state", false);
+			StartCoroutine ("ToIce");  
+		}
 
     }
+
+	private IEnumerator Towater() {  
+		//1秒後に氷のコライダーがなくなる
+		yield return new WaitForSeconds (1.0f); 
+		gameObject.GetComponent<BoxCollider2D> ().enabled  = false;
+	} 
+	private IEnumerator ToIce() {  
+		//1秒後に氷のコライダーがなくなる
+		yield return new WaitForSeconds (1.0f); 
+		gameObject.GetComponent<BoxCollider2D> ().enabled  = true;
+	} 
 }
 

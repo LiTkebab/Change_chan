@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Jumpable: " + Jumpable);
+        //Debug.Log("Jumpable: " + Jumpable);
         //ChangeTempのAirTemp（温度）の2分の１の力で移動
         //speed = GetComponent<ChangeTemp> ().AirTemp / 2;
         //ChangeTempのAirTemp（温度）の8倍の力でジャンプ
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
         }
         else if (rb2D.velocity.x > 0)
         {
-            rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x - resis, 10, 100), rb2D.velocity.y);
+            rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x - resis, 3, 100), rb2D.velocity.y);
         }
         //キャラクターの向きを左に向ける
         gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         }
         else if (rb2D.velocity.x < 0)
         {
-            rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x + resis, -100, -10), rb2D.velocity.y);
+            rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x + resis, -100, -3), rb2D.velocity.y);
         }
         //キャラクターの向きを右に向ける
         gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -72,17 +72,24 @@ public class Player : MonoBehaviour
     //Stageのタグのついた場所に着地した時にジャンプ可能にする
     void OnCollisionEnter2D(Collision2D thing)
     {
-        //if (thing.gameObject.tag == "Stage") {
+        if (thing.gameObject.tag == "Stage") {
         Jumpable = true;
-        Debug.Log("hoge");
-        //}
+        //Debug.Log("hoge");
+        }
     }
     //Stageのタグのついた場所からジャンプしたらジャンプ不能になる
     void OnCollisionExit2D(Collision2D thing)
     {
-        //if (thing.gameObject.tag == "Stage") {
+        if (thing.gameObject.tag == "Stage") {
         Jumpable = false;
-        Debug.Log("hoge");
-        //}
+        //Debug.Log("hoge");
+        }
     }
+	void OnCollisionStay2D(Collision2D thing)
+	{
+		if (thing.gameObject.tag == "Stage") {
+			Jumpable = true;
+			//Debug.Log("hoge");
+		}
+	}
 }
