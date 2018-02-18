@@ -4,22 +4,16 @@ using UnityEngine;
 
 public class ButtonScript : MonoBehaviour {
 
-    public bool Buttonable = true;
+    [SerializeField] PushedButtonScript gimmick;
 
-    // Use this for initialization
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    void OnCollisionEnter2D(Collision2D thing)
-    {
-        if (thing.gameObject.tag == "Stage")
+
+    void OnCollisionEnter2D(Collision2D collision){
+        if (collision.gameObject.tag == "Player")
         {
-            Buttonable = true;
+            gimmick.OnButtonPushed();
         }
     }
 }

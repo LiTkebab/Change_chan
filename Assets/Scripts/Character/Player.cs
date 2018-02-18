@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     { //右にいく時の挙動
         if (Jumpable == true)
         {
-            Debug.Log("キャラクターが右に進んでいます");
+            //Debug.Log("キャラクターが右に進んでいます");
             rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
         }
         else if (rb2D.velocity.x < 0)

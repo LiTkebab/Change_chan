@@ -1,30 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-public class ElevatorScript : MonoBehaviour{
-
-    public float position;
-    public float speed;
+public class ElevatorScript : PushedButtonScript
+{
     Rigidbody2D rb2D;
+    [SerializeField]
+    RectTransform rectTran;
 
 
     // Use this for initialization
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.K))//ここの条件は後でボタンにする
+        if (Input.GetKey(KeyCode.K))
         {
-           transform.position += new Vector3(0, speed, 0);
+            StartCoroutine("Elve");
         }
-        if (transform.position.y >= position)
-        {
-            Debug.Log("down");
-        }
+        
+    }
+
+    public override void OnButtonPushed()
+    {
+        StartCoroutine("Elve");
+       
+
+    }
+
+    private IEnumerator Elve()
+    {
+        // 1秒待つ  
+       // yield return new WaitForSeconds(1.0f);
+
+        // ログ出力  
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y + 40, transform.position.z), 4);
+
+        // 2秒待つ  
+        yield return new WaitForSeconds(5.0f);
+
+        // ログ出力  
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y - 40, transform.position.z), 4);
+
+        yield return new WaitForSeconds(5.0f);
+
+        // ログ出力  
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y + 40, transform.position.z), 4);
+
+        yield return new WaitForSeconds(5.0f);
+        // ログ出力  
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y - 40, transform.position.z), 4);
+        yield return new WaitForSeconds(5.0f);
+
+        // ログ出力  
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y + 40, transform.position.z), 4);
+
+        yield return new WaitForSeconds(5.0f);
+        // ログ出力  
+        transform.DOMove(new Vector3(transform.position.x, transform.position.y - 40, transform.position.z), 4);
     }
 }
