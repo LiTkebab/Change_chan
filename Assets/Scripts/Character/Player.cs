@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player :SingletonMonoBehaviour<Player>
 {
 
     [SerializeField]
+	//Player aaa;
     public float speed, Jumpforce;
-    Rigidbody2D rb2D;
-    ChangeTemp changeTemp;
     public bool Jumpable = true;
-    float resis = 1;
+	public bool InWater,PumpWater,DrainageWater;
+    float resis = 1;	
+	public int JumpCownt;
+	Rigidbody2D rb2D;
+	ChangeTemp changeTemp;
 
     // Use this for initialization
     void Start()
@@ -30,32 +33,36 @@ public class Player : MonoBehaviour
     }
     public void GoLeft()
     { //左にいく時の挙動
-        if (Jumpable == true)
-        {
-            Debug.Log("キャラクターが左に進んでいます");
-            rb2D.velocity = new Vector2(-speed, rb2D.velocity.y);
-        }
-        else if (rb2D.velocity.x > 0)
-        {
-            rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x - resis, 3, 100), rb2D.velocity.y);
-        }
-        //キャラクターの向きを左に向ける
-        gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+		if (Jumpable == true) {
+			//Debug.Log ("キャラクターが左に進んでいます");
+			rb2D.velocity = new Vector2 (-speed, rb2D.velocity.y);
+			//キャラクターの向きを左に向ける
+			gameObject.transform.rotation = Quaternion.Euler (0, 180, 0);
+
+
+		} else if (rb2D.velocity.x > 0) {
+			rb2D.velocity = new Vector2 (Mathf.Clamp (rb2D.velocity.x - resis, 3, 100), rb2D.velocity.y);
+			//キャラクターの向きを左に向ける
+			gameObject.transform.rotation = Quaternion.Euler (0, 180, 0);
+		}
     }
 
     public void GoRight()
     { //右にいく時の挙動
         if (Jumpable == true)
         {
-            Debug.Log("キャラクターが右に進んでいます");
+            //Debug.Log("キャラクターが右に進んでいます");
             rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
+			//キャラクターの向きを右に向ける
+			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+
         }
         else if (rb2D.velocity.x < 0)
         {
             rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x + resis, -100, -3), rb2D.velocity.y);
+			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+
         }
-        //キャラクターの向きを右に向ける
-        gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public void Jump()
@@ -64,12 +71,22 @@ public class Player : MonoBehaviour
         if (Jumpable == true)
         {
             rb2D.AddForce(new Vector2(rb2D.velocity.x, Jumpforce));
-            Debug.Log("キャラクターがジャンプしています");
+            //Debug.Log("キャラクターがジャンプしています");
+
         }
-
     }
+	public void Pump()
+	{
+		
+		PumpWater = true;
+	
+	}
+	public void Drainage()
+	{
+		DrainageWater = true;
+	}
 
-    //Stageのタグのついた場所に着地した時にジャンプ可能にする
+   //Stageのタグのついた場所に着地した時にジャンプ可能にする
     void OnCollisionEnter2D(Collision2D thing)
     {
         if (thing.gameObject.tag == "Stage") {
@@ -91,5 +108,11 @@ public class Player : MonoBehaviour
 			Jumpable = true;
 			//Debug.Log("hoge");
 		}
+
+		if (thing.gameObject.tag == "WaterArea" && InWater == true) {
+			this.transform.Find ("Water").gameObject.SetActive (true);
+			InWater = true;
+		}
 	}
+
 }

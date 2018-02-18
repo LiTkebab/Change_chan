@@ -44,5 +44,6 @@ public class IceScript : MonoBehaviour {
 		yield return new WaitForSeconds (1.0f); 
 		gameObject.GetComponent<BoxCollider2D> ().enabled  = true;
 	} 
+
 }
 

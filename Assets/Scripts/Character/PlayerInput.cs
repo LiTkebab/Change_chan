@@ -6,6 +6,7 @@ public class PlayerInput: MonoBehaviour {
 	
 	Player player;
 	ChangeTemp changeTemp;
+	public Animator animator;
 
 	// Use this for initialization
 	void Start () {
@@ -31,13 +32,18 @@ public class PlayerInput: MonoBehaviour {
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			//スペースバーでプレイヤーを左に移動させる
+			//スペースバーでプレイヤーをジャンプさせる
 			player.Jump();
-
-
 		}
 
-
+		if (Input.GetKeyDown(KeyCode.Q)) {
+			//Qキーで水を汲む
+			player.Pump ();
+		}
+		if (Input.GetKeyDown(KeyCode.E)) {
+			//Eキーで水を放水
+			player.Drainage ();
+		}
 		//温度変化
 		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 		{
