@@ -36,6 +36,16 @@ public class PlayerInput: MonoBehaviour {
 
 
 		}
+		if (Input.GetKey (KeyCode.Q)) {
+			//Qキーで水を汲む
+			player.Pump ();
+		
+		}
+		if (Input.GetKey (KeyCode.E)) {
+			//Eキーで放水
+			player.Drainage ();
+
+		}
 
 
 		//温度変化

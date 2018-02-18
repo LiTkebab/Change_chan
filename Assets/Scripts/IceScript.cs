@@ -14,13 +14,16 @@ public class IceScript : MonoBehaviour {
     void Start()
     {
         TowaterTemp = 25f;
+
+		
     }
 
     // Update is called once per frame
     void Update()
     {
         //animator = GetComponent<Animator>();
-
+			
+		
 		if (ChangeTemp.Instance.AirTemp > TowaterTemp)
         {
             animator.SetBool("change_state", true);
@@ -32,12 +35,20 @@ public class IceScript : MonoBehaviour {
 			StartCoroutine ("ToIce");  
 		}
 
+
+
+
     }
 
-	private IEnumerator Towater() {  
+	private IEnumerator Towater() {
+		
 		//1秒後に氷のコライダーがなくなる
-		yield return new WaitForSeconds (1.0f); 
+		yield return new WaitForSeconds (0.6f); 
 		gameObject.GetComponent<BoxCollider2D> ().enabled  = false;
+		if (gameObject.tag == "IceD") {
+			Destroy (gameObject);
+		}
+
 	} 
 	private IEnumerator ToIce() {  
 		//1秒後に氷のコライダーがなくなる

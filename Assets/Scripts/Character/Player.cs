@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : SingletonMonoBehaviour<Player>
 {
 
     [SerializeField]
     public float speed, Jumpforce;
+	[SerializeField]
+	public bool InWater,ablePump,ableDrainge;
     Rigidbody2D rb2D;
     ChangeTemp changeTemp;
     public bool Jumpable = true;
@@ -32,7 +34,7 @@ public class Player : MonoBehaviour
     { //左にいく時の挙動
         if (Jumpable == true)
         {
-            Debug.Log("キャラクターが左に進んでいます");
+            //Debug.Log("キャラクターが左に進んでいます");
             rb2D.velocity = new Vector2(-speed, rb2D.velocity.y);
         }
         else if (rb2D.velocity.x > 0)
@@ -47,7 +49,7 @@ public class Player : MonoBehaviour
     { //右にいく時の挙動
         if (Jumpable == true)
         {
-            Debug.Log("キャラクターが右に進んでいます");
+            //Debug.Log("キャラクターが右に進んでいます");
             rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
         }
         else if (rb2D.velocity.x < 0)
@@ -64,30 +66,43 @@ public class Player : MonoBehaviour
         if (Jumpable == true)
         {
             rb2D.AddForce(new Vector2(rb2D.velocity.x, Jumpforce));
-            Debug.Log("キャラクターがジャンプしています");
+            //Debug.Log("キャラクターがジャンプしています");
         }
 
     }
+	public void Pump(){
+		ablePump = true;
+	}
+	public void Drainage(){
+		ableDrainge = true;
+	}
 
     //Stageのタグのついた場所に着地した時にジャンプ可能にする
     void OnCollisionEnter2D(Collision2D thing)
     {
-        if (thing.gameObject.tag == "Stage") {
+        //if (thing.gameObject.tag == "Stage") {
         Jumpable = true;
         //Debug.Log("hoge");
-        }
+        //}
     }
     //Stageのタグのついた場所からジャンプしたらジャンプ不能になる
     void OnCollisionExit2D(Collision2D thing)
     {
-        if (thing.gameObject.tag == "Stage") {
+        //if (thing.gameObject.tag == "Stage") {
         Jumpable = false;
         //Debug.Log("hoge");
-        }
+       // }
     }
 	void OnCollisionStay2D(Collision2D thing)
 	{
-		if (thing.gameObject.tag == "Stage") {
+		//if (thing.gameObject.tag == "Stage") {
+			Jumpable = true;
+			//Debug.Log("hoge");
+		//}
+	}
+	void OnTriggerStay2D(Collider2D thing)
+	{
+		if (thing.gameObject.tag == "Water") {
 			Jumpable = true;
 			//Debug.Log("hoge");
 		}
