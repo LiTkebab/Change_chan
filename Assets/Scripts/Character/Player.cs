@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
     }
 	void OnCollisionStay2D(Collision2D thing)
 	{
-		if (thing.gameObject.tag == "Stage") {
+		if (thing.gameObject.tag == "Button") {
 			Jumpable = true;
 			//Debug.Log("hoge");
 		}

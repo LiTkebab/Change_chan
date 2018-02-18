@@ -31,7 +31,7 @@ public class PlayerInput: MonoBehaviour {
 		}
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			//スペースバーでプレイヤーを左に移動させる
+			//スペースバーでプレイヤーをジャンプさせる
 			player.Jump();
 
 
