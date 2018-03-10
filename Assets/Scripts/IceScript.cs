@@ -48,12 +48,19 @@ public class IceScript : MonoBehaviour {
 		if (gameObject.tag == "IceD") {
 			Destroy (gameObject);
 		}
+		yield return new WaitForSeconds (0.1f); 
+		gameObject.tag = "Water";
+		gameObject.GetComponent<BoxCollider2D> ().enabled = true;
+		gameObject.GetComponent<BoxCollider2D> ().isTrigger = true;
+
+
 
 	} 
 	private IEnumerator ToIce() {  
 		//1秒後に氷のコライダーがなくなる
 		yield return new WaitForSeconds (1.0f); 
 		gameObject.GetComponent<BoxCollider2D> ().enabled  = true;
+
 	} 
 }
 

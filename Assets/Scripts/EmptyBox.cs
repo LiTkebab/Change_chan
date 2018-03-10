@@ -19,7 +19,7 @@ public class EmptyBox : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D player){
-		//Debug.Log("hit");
+		
 		if (Player.Instance.InWater == true) {
 			
 		}

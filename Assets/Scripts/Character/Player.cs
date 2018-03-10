@@ -102,9 +102,12 @@ public class Player : SingletonMonoBehaviour<Player>
 	}
 	void OnTriggerStay2D(Collider2D thing)
 	{
-		if (thing.gameObject.tag == "Water") {
-			Jumpable = true;
-			//Debug.Log("hoge");
+		if (thing.gameObject.tag == "Water" && ablePump == true) {
+			InWater = true;
+
+		}
+		if (InWater == true && ableDrainge == true) {
+			InWater = false;
 		}
 	}
 }
