@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmptyBox : MonoBehaviour {
+public class EmptyBox : SingletonMonoBehaviour<EmptyBox> {
 	public GameObject Water;
+	public bool WaterEmpty;
 	// Use this for initialization
 	void Start () {
 		
@@ -11,18 +12,9 @@ public class EmptyBox : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
-
-	void InWater(){
-	
-	}
-
-	void OnTriggerEnter2D(Collider2D player){
-		
-		if (Player.Instance.InWater == true) {
-			
+		if (WaterEmpty == true) {
+			Instantiate (Water,gameObject.transform.position, Quaternion.identity);
+			WaterEmpty = false;
 		}
-
 	}
 }

@@ -18,6 +18,7 @@ public class Player : SingletonMonoBehaviour<Player>
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
@@ -72,9 +73,10 @@ public class Player : SingletonMonoBehaviour<Player>
     }
 	public void Pump(){
 		ablePump = true;
+		ableDrainge = true;
 	}
 	public void Drainage(){
-		ableDrainge = true;
+		ableDrainge = false;
 	}
 
     //Stageのタグのついた場所に着地した時にジャンプ可能にする
@@ -104,10 +106,13 @@ public class Player : SingletonMonoBehaviour<Player>
 	{
 		if (thing.gameObject.tag == "Water" && ablePump == true) {
 			InWater = true;
+			Debug.Log ("Inwater");
 
 		}
-		if (InWater == true && ableDrainge == true) {
+		if (InWater == true && ableDrainge == false && thing.gameObject.tag == "EmptyBox") {
 			InWater = false;
+			EmptyBox.Instance.WaterEmpty = true;
+			Debug.Log (" " + EmptyBox.Instance.WaterEmpty);
 		}
 	}
 }
