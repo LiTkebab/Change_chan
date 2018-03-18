@@ -9,9 +9,11 @@ public class Player : SingletonMonoBehaviour<Player>
     public float speed, Jumpforce;
 	[SerializeField]
 	public bool InWater,ablePump,ableDrainge;
+	private const int MAX_JUMP_COUNT = 2;
+	private int jumpCount = 0;
     Rigidbody2D rb2D;
     ChangeTemp changeTemp;
-    public bool Jumpable = true;
+	public bool Jumpable,Leftable,Rightable;
     float resis = 1;
 
     // Use this for initialization
@@ -32,30 +34,21 @@ public class Player : SingletonMonoBehaviour<Player>
     }
     public void GoLeft()
     { //左にいく時の挙動
-        if (Jumpable == true)
-        {
             //Debug.Log("キャラクターが左に進んでいます");
             rb2D.velocity = new Vector2(-speed, rb2D.velocity.y);
-        }
-        else if (rb2D.velocity.x > 0)
-        {
-            rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x - resis, 3, 100), rb2D.velocity.y);
-        }
+		if (rb2D.velocity.x > 0) {
+			rb2D.velocity = new Vector2 (Mathf.Clamp (rb2D.velocity.x - resis, 3, 100), rb2D.velocity.y);
+		}
         //キャラクターの向きを左に向ける
         gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
 
     public void GoRight()
     { //右にいく時の挙動
-        if (Jumpable == true)
-        {
-            //Debug.Log("キャラクターが右に進んでいます");
             rb2D.velocity = new Vector2(speed, rb2D.velocity.y);
-        }
-        else if (rb2D.velocity.x < 0)
-        {
-            rb2D.velocity = new Vector2(Mathf.Clamp(rb2D.velocity.x + resis, -100, -3), rb2D.velocity.y);
-        }
+		if (rb2D.velocity.x < 0) {
+			rb2D.velocity = new Vector2 (Mathf.Clamp (rb2D.velocity.x + resis, -100, -3), rb2D.velocity.y);
+		}
         //キャラクターの向きを右に向ける
         gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
@@ -63,13 +56,33 @@ public class Player : SingletonMonoBehaviour<Player>
     public void Jump()
     { //ジャンプの挙動
       //プレイヤーが着地した時にジャンプできる
-        if (Jumpable == true)
+		if (jumpCount < MAX_JUMP_COUNT)
         {
+			Jumpable = true;
             rb2D.AddForce(new Vector2(rb2D.velocity.x, Jumpforce));
             //Debug.Log("キャラクターがジャンプしています");
         }
 
     }
+	void FixedUpdate() 
+	{ 
+		if( Jumpable ) 
+		{ 
+			// 速度をクリアした2回目のジャンプも1回目と同じ挙動にする。 
+			rb2D.velocity = Vector2.zero; 
+
+			// ジャンプさせる。 
+			rb2D.AddForce( Vector2.up * Jumpforce ); 
+
+			// ジャンプ回数をカウント。 
+			jumpCount++; 
+
+			// ジャンプを許可する。 
+			Jumpable = false; 
+		} 
+	} 
+
+
 	public void Pump(){
 		ablePump = true;
 	}
@@ -80,25 +93,9 @@ public class Player : SingletonMonoBehaviour<Player>
     //Stageのタグのついた場所に着地した時にジャンプ可能にする
     void OnCollisionEnter2D(Collision2D thing)
     {
-        //if (thing.gameObject.tag == "Stage") {
-        Jumpable = true;
-        //Debug.Log("hoge");
-        //}
-    }
-    //Stageのタグのついた場所からジャンプしたらジャンプ不能になる
-    void OnCollisionExit2D(Collision2D thing)
-    {
-        //if (thing.gameObject.tag == "Stage") {
-        Jumpable = false;
-        //Debug.Log("hoge");
-       // }
-    }
-	void OnCollisionStay2D(Collision2D thing)
-	{
-		//if (thing.gameObject.tag == "Stage") {
-			Jumpable = true;
-			//Debug.Log("hoge");
-		//}
+		if (thing.gameObject.tag == "Stage") {
+			jumpCount = 0;
+		}
 	}
 	void OnTriggerStay2D(Collider2D thing)
 	{
