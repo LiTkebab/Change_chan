@@ -108,8 +108,11 @@ public class Player : SingletonMonoBehaviour<Player>
 		}
 		if (InWater == true && ableDrainge == false && thing.gameObject.tag == "EmptyBox") {
 			InWater = false;
-			EmptyBox.Instance.WaterEmpty = true;
-			Debug.Log (" " + EmptyBox.Instance.WaterEmpty);
+			thing.GetComponent<EmptyBox>().WaterEmpty = true;
+		}
+		if (InWater == true && ableDrainge == false && thing.gameObject.tag == "Fire") {
+			InWater = false;
+			FireScript.Instance.DeleteFire = true;
 		}
 	}
 }
