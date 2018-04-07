@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmptyBox : SingletonMonoBehaviour<EmptyBox> {
+public class EmptyBox :  MonoBehaviour {
 	public GameObject Water;
 	public bool WaterEmpty;
 	// Use this for initialization
