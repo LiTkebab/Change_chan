@@ -10,6 +10,7 @@ TagManager:
   - Water
   - IceD
   - Fire
+  - Button
   layers:
   - Default
   - TransparentFX
